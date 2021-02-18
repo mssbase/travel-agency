@@ -1,12 +1,8 @@
 .switchWrapper {
   position: relative;
   @keyframes moveUp {
-    0% {
-      top: 2000px;
-    }
-    100% {
-      top: 0px;
-    }
+    0% {top: 2000px;}
+    100% {top: 0px;}
   }
 
   > :first-child ~ * {
@@ -14,6 +10,6 @@
     top: 0;
     left: 0;
     width: 100%;
-    animation: moveUp .1s ease-in-out;
+    animation: moveUp .7s ease-in-out;
   }
 }

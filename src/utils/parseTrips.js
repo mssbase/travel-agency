@@ -63,7 +63,9 @@ const parseTrips = (trips, setStates) => {
   }
 
   for(let option of pricing){
-    if(typeof(option.defaultValue) != 'undefined'){
+    if (option.type === 'date' && option.defaultValue === 'today') {
+      newState.order.options[option.id] = new Date();
+    } else if(typeof(option.defaultValue) != 'undefined'){
       newState.order.options[option.id] = option.defaultValue;
     } else if(typeof(option.limits) != 'undefined' && typeof(option.limits.min) != 'undefined'){
       newState.order.options[option.id] = option.limits.min;
