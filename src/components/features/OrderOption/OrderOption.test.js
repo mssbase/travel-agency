@@ -55,6 +55,7 @@ const mockPropsForType = {
 };
 
 const testValue = mockProps.values[1].id;
+const testValueNumber = 3;
 
 
 for(let type in optionTypes){
@@ -107,7 +108,6 @@ for(let type in optionTypes){
           expect(mockSetOrderOption).toBeCalledTimes(1);
           expect(mockSetOrderOption).toBeCalledWith({[mockProps.id]: testValue});
         });
-
         break;
       }
 
@@ -116,7 +116,91 @@ for(let type in optionTypes){
           const div = renderedSubcomponent.find('div').at(0);
           expect(div.length).toBe(1);
 
+          const emptyIcon = renderedSubcomponent.find('Icon').not('[name="h-square"]').length;
+          expect(emptyIcon).toBe(1);
 
+          const firstIconDiv = div.childAt(1);
+          const secondIconDiv = div.childAt(2);
+          expect(firstIconDiv.length + secondIconDiv.length).toBe(mockProps.values.length);
+          expect(firstIconDiv.text()).toEqual(expect.stringContaining(mockProps.values[0].name));
+          expect(secondIconDiv.text()).toEqual(expect.stringContaining(mockProps.values[1].name));
+
+        });
+        it('should run setOrderOption function on change', () => {
+          const div = renderedSubcomponent.find('div').at(3);
+          div.simulate('click');
+          expect(mockSetOrderOption).toBeCalledTimes(1);
+          expect(mockSetOrderOption).toBeCalledWith({[mockProps.id]: testValue});
+        });
+        break;
+      }
+      case 'checkboxes' : {
+        /* test for chekboxes */
+        it('contains div with inputs inside', () => {
+          const div = renderedSubcomponent.find('div');
+          expect(div.length).toBe(1);
+
+          const inputs = div.find('input');
+          expect(inputs.length).toBe(mockProps.values.length);
+          expect(inputs.at(0).prop('type')).toEqual('checkbox');
+          expect(inputs.at(1).prop('type')).toEqual('checkbox');
+
+          expect(inputs.at(0).prop('value')).toEqual(mockProps.values[0].id);
+          expect(inputs.at(1).prop('value')).toEqual(mockProps.values[1].id);
+        });
+        /* testy interaktywne do zrobienia */
+        it('should run setOrderOption function on change', () => {
+          const div = renderedSubcomponent.find('div');
+          (div.childAt(1).find('input')).simulate('change', {currentTarget: {checked: true}});
+          expect(mockSetOrderOption).toBeCalledTimes(1);
+          expect(mockSetOrderOption).toBeCalledWith({[mockProps.id]: [mockProps.currentValue, testValue]});
+        });
+        break;
+      }
+
+      case 'number' : {
+        /* tests for number */
+        it('contains div with input inside', () => {
+          const div = renderedSubcomponent.find('div');
+          const input = div.find('input');
+          expect(input.prop('value')).toEqual(mockPropsForType.number.currentValue);
+          expect(input.prop('min')).toEqual(mockProps.limits.min);
+        });
+        it('should run setOrderOption function on change', () => {
+          renderedSubcomponent.find('input').simulate('change', {currentTarget: {value: testValueNumber}});
+          expect(mockSetOrderOption).toBeCalledTimes(1);
+          expect(mockSetOrderOption).toBeCalledWith({[mockProps.id]: testValueNumber});
+        });
+        break;
+      }
+
+      case 'text' : {
+        /* tests for text */
+        it('contains div with input inside', () => {
+          const div = renderedSubcomponent.find('div');
+          const input = div.find('input');
+          expect(input.prop('placeholder')).toEqual(mockProps.name);
+          expect(input.prop('type')).toEqual('text');
+        });
+        it('should run setOrderOption function on change', () => {
+          renderedSubcomponent.find('input').simulate('change', {currentTarget: {value: testValue}});
+          expect(mockSetOrderOption).toBeCalledTimes(1);
+          expect(mockSetOrderOption).toBeCalledWith({[mockProps.id]: testValue});
+        });
+        break;
+      }
+
+      case 'date' : {
+        /* tests for date */
+        it('contains div with DatePicker inside', () => {
+          const datePickerParent = renderedSubcomponent.find('div');
+          expect(datePickerParent.childAt(0).prop('selected')).toEqual(mockPropsForType.date.currentValue);
+        });
+        it('should run setOrderOption function on change', () => {
+          const datePickerParent = renderedSubcomponent.find('div');
+          datePickerParent.childAt(0).simulate('change', testValue);
+          expect(mockSetOrderOption).toBeCalledTimes(1);
+          expect(mockSetOrderOption).toBeCalledWith({[mockProps.id]: testValue});
         });
         break;
       }
