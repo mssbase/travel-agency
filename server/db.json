@@ -1,3 +1,30 @@
 {
-  "orders": []
+  "orders": [
+    {
+      "car-rental": "",
+      "accommodation": "hotel",
+      "features": [],
+      "adults": 1,
+      "children": 0,
+      "name": "",
+      "contact": "",
+      "start-date": "2021-02-25T18:13:12.797Z",
+      "totalCost": "$9,553",
+      "id": 1
+    },
+    {
+      "car-rental": "full",
+      "accommodation": "hotel",
+      "features": [
+        "kitchen"
+      ],
+      "adults": 1,
+      "children": 0,
+      "name": "",
+      "contact": "",
+      "start-date": "2021-02-25T18:13:12.797Z",
+      "totalCost": "$10,153",
+      "id": 2
+    }
+  ]
 }

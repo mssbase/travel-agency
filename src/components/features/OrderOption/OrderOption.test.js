@@ -51,7 +51,9 @@ const mockPropsForType = {
   checkboxes: {currentValue: [mockProps.currentValue]},
   number: {currentValue: 1},
   text: {},
-  date: {},
+  date: {
+    currentValue: 'aaa',
+  },
 };
 
 const testValue = mockProps.values[1].id;
